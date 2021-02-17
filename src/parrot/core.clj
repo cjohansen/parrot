@@ -3,19 +3,44 @@
             [clojure.set :as set]
             [clojure.string :as str]))
 
-(defn matches-request? [req [method url attrs]]
-  (let [criteria (cond-> attrs
-                   method (assoc :method method)
-                   url (assoc :url url))]
+(defn comparable? [a b]
+  (cond
+    (and (string? a) (instance? java.util.regex.Pattern b))
+    (re-find b a)
+
+    (and (string? b) (instance? java.util.regex.Pattern a))
+    (re-find a b)
+
+    :default
+    (= a b)))
+
+(defmulti match? (fn [k spec req] k))
+
+(defn normalize-keys [m]
+  (->> (keys m)
+       (map (fn [k] [(keyword (str/lower-case k)) (get m k)]))
+       (into {})))
+
+(defmethod match? :headers [k spec req]
+  (let [req-headers (normalize-keys (req k))
+        spec-headers (normalize-keys (spec k))]
+    (every? #(comparable? (get spec-headers %)
+                          (get req-headers %))
+            (keys spec-headers))))
+
+(defmethod match? :default [k spec req]
+  (comparable? (k spec) (k req)))
+
+(defn matches-request? [req matcher]
+  (let [criteria (if (vector? matcher)
+                   {:method (first matcher)
+                    :url (second matcher)}
+                   matcher)]
     (loop [ks (keys criteria)]
       (if (nil? ks)
         true
         (let [k (first ks)]
-          (if (cond
-                (= :headers k) (every? #(= (get-in criteria [k %])
-                                           (get-in req [k %]))
-                                       (keys (criteria k)))
-                :default (= (criteria k) (req k)))
+          (if (match? k criteria req)
             (recur (next ks))
             false))))))
 

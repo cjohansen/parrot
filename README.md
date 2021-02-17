@@ -87,6 +87,74 @@ With Leiningen:
 means that no bugs have been discovered in a while. Parrot HTTP is largely
 feature-complete, and I expect to only rarely add to its feature set.
 
+<a id="specs"></a>
+## Request matching
+
+`with-responses` takes a vector of "request spec"/response pairs. The request
+spec can either be vector specifying the request method and URL, or a map that
+matches against any property of the request:
+
+```clj
+(with-responses
+  [[:get "https://example.com/"]
+   {:status 200
+    :body {:ok? true}}
+
+   {:method :post}
+   {:status 400}
+
+   {:method :get
+    :url "http://test.com"
+    :headers {"content-type" "application/json"}}]
+
+  ,,,)
+```
+
+Parrot will always select the first request that matches, so in case of
+overlapping matches you should go in order of most to least specific.
+
+The spec `[:get "https://example.com/"]` is equivalent to `{:method :get, :url
+"https://example.com"}`.
+
+Parrot defaults to checking that the value in the spec is the same in the
+request, e.g. `(= (:method spec) (:method req))`. If all the spec criteria
+matches, the paired response is used.
+
+Some spec keys are treated differently, as determined by the multi-method
+`(parrot.core/match? k spec req)`:
+
+- `:headers` If each header in the spec is the same as the header in the
+  request, it is a match - even if the spec does not specify all headers in the
+  request. Header names are compared case-insensitively.
+
+```clj
+(require '[parrot.clj-http :refer [with-responses]]
+         '[clj-http.client :as http])
+
+(with-responses
+ [{:headers {"content-type" "application/json"}}
+  {:status 201}]
+
+ (http/request
+  {:method :get
+   :url "https://example.com"
+   :headers {"Authorization" "Bearer ..."
+             "Content-Type" "application/json"}})
+ ;;=> {:status 201, :headers {}}
+)
+```
+
+The spec may also specify regular expressions in place of string values to
+perform a fuzzy match:
+
+```clj
+(with-responses
+ [{:headers {"content-type" #"json"}}
+            {:status 201}]
+
+ ,,,)
+```
+
 ## Changelog
 
 ### 2021.02.16
