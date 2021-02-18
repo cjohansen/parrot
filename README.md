@@ -105,7 +105,9 @@ matches against any property of the request:
 
    {:method :get
     :url "http://test.com"
-    :headers {"content-type" "application/json"}}]
+    :headers {"content-type" "application/json"}}
+   {:status 200
+    :body {:json? true}}]
 
   ,,,)
 ```
@@ -140,7 +142,7 @@ Some spec keys are treated differently, as determined by the multi-method
    :url "https://example.com"
    :headers {"Authorization" "Bearer ..."
              "Content-Type" "application/json"}})
- ;;=> {:status 201, :headers {}}
+ ;;=> {:status 201}
 )
 ```
 

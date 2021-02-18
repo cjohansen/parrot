@@ -49,18 +49,10 @@
        (filter (comp (partial matches-request? req) first))
        first))
 
-(defn prepare-response [stub]
-  (merge
-   {:status 404
-    :headers {}
-    :body {}}
-   stub))
-
 (defn log-request [spec req res])
 
 (defn handle-request [responses req]
-  (let [[spec stub] (find-suitable-response responses req)
-        res (prepare-response stub)]
+  (let [[spec res] (find-suitable-response responses req)]
     (log-request spec req res)
     (when-not spec
       (throw (ex-info (format "Unexpected request: %s %s"
