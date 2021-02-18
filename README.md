@@ -74,13 +74,13 @@ breaking way, and will never (intentionally) introduce other breaking changes.
 With tools.deps:
 
 ```clj
-cjohansen/parrot-http {:mvn/version "2021.02.16"}
+cjohansen/parrot-http {:mvn/version "2021.02.18"}
 ```
 
 With Leiningen:
 
 ```clj
-[cjohansen/parrot-http "2021.02.16"]
+[cjohansen/parrot-http "2021.02.18"]
 ```
 
 **NB!** Please do not be alarmed if the version/date seems "old" - this just
@@ -159,7 +159,7 @@ perform a fuzzy match:
 
 ## Changelog
 
-### 2021.02.16
+### 2021.02.18
 
 Initial version
 

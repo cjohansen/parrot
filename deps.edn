@@ -1,7 +1,9 @@
 {:paths ["src"]
- :deps {org.clojure/clojure {:mvn/version "1.10.1"}}
+ :deps {org.clojure/clojure {:mvn/version "1.10.1"
+                             :scope "provided"}}
  :aliases {:dev {:extra-paths ["test"]
-                 :extra-deps {clj-http/clj-http {:mvn/version "3.10.1"}
+                 :extra-deps {org.clojure/test.check {:mvn/version "0.10.0-alpha4"}
+                              clj-http/clj-http {:mvn/version "3.10.1"}
                               lambdaisland/kaocha {:mvn/version "1.0.700"}
                               kaocha-noyoda/kaocha-noyoda {:mvn/version "2019-06-03"}}}
            :test {:main-opts ["-m" "kaocha.runner"]}
