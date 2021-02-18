@@ -84,7 +84,7 @@
   true)
 
 (defn verify-all-responses-requested [request-log response-stubs & [msg]]
-  (let [provided-stubs (set (map first @response-stubs))
+  (let [provided-stubs (set (map first (partition 2 @response-stubs)))
         requested-stubs (set (map :spec @request-log))
         stubs-not-requested (set/difference provided-stubs requested-stubs)]
     (if (empty? stubs-not-requested)
