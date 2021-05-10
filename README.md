@@ -60,11 +60,12 @@ an assertion:
 
 Placing `with-responses` as close to the code making the requests as possible
 will give you a better REPL experience, as you can evaluate the expression to
-consider the return value. `with-request-log` can span multiple
-`with-responses`. In other words you can write a longer integration style test,
-wrapping individual steps in a dedicated `with-responses`, and wrap the entire
-thing in a `with-request-log` and include `assert-all-responses-requested` at
-the end of the test.
+consider the return value.
+
+`with-request-log` can span multiple `with-responses`. In other words you can
+write a longer integration style test, wrapping individual steps in a dedicated
+`with-responses`, and wrap the entire thing in a `with-request-log` and include
+`assert-all-responses-requested` at the end of the test.
 
 ## Install
 
