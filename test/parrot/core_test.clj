@@ -35,6 +35,20 @@
                       "Content-Type" "application/json"}}))
          {:status 201})))
 
+(deftest calls-function-to-produce-responsee
+  (is (= (second
+          (sut/find-suitable-response
+           [{:headers {"content-type" #"json"}}
+            (fn [req]
+              {:status 201
+               :body {:request-method (:method req)}})]
+           {:method :get
+            :url "https://example.com"
+            :headers {"Authorization" "Bearer ..."
+                      "Content-Type" "application/json"}}))
+         {:status 201
+          :body {:request-method :get}})))
+
 (deftest verify-all-responses-requested--ok
   (is (= (sut/verify-request-log
           [{:spec [:get "https://example.com/"]}]

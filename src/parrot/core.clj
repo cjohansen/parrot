@@ -48,9 +48,13 @@
             false))))))
 
 (defn find-suitable-response [responses req]
-  (->> (partition 2 responses)
-       (filter (comp (partial matches-request? req) first))
-       first))
+  (when-let [[k res] (->> (partition 2 responses)
+                          (filter (comp (partial matches-request? req) first))
+                          first)]
+    [k (cond
+         (map? res) res
+         (ifn? res) (res req)
+         :default res)]))
 
 (defn log-request [spec req res])
 

@@ -75,13 +75,13 @@ breaking way, and will never (intentionally) introduce other breaking changes.
 With tools.deps:
 
 ```clj
-cjohansen/parrot-http {:mvn/version "2021.02.18"}
+cjohansen/parrot-http {:mvn/version "2021.05.10"}
 ```
 
 With Leiningen:
 
 ```clj
-[cjohansen/parrot-http "2021.02.18"]
+[cjohansen/parrot-http "2021.05.10"]
 ```
 
 **NB!** Please do not be alarmed if the version/date seems "old" - this just
@@ -158,7 +158,34 @@ perform a fuzzy match:
  ,,,)
 ```
 
+### Custom function handlers
+
+Sometimes a canned response doesn't cut it. In those cases, you can provide a
+single-argument function that returns a response map in place of the inline map:
+
+```clj
+(require '[parrot.clj-http :refer [with-responses]]
+         '[clj-http.client :as http])
+
+(with-responses
+ [{:headers {"content-type" "application/json"}}
+  (fn [req]
+    {:status 201})]
+
+ (http/request
+  {:method :get
+   :url "https://example.com"
+   :headers {"Authorization" "Bearer ..."
+             "Content-Type" "application/json"}})
+ ;;=> {:status 201}
+)
+```
+
 ## Changelog
+
+### 2021.05.10
+
+Added support for custom function handlers
 
 ### 2021.02.18
 

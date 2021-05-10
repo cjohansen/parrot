@@ -4,7 +4,7 @@
   <packaging>jar</packaging>
   <groupId>cjohansen</groupId>
   <artifactId>parrot</artifactId>
-  <version>2021.02.18</version>
+  <version>2021.05.10</version>
   <name>parrot</name>
   <dependencies>
     <dependency>
@@ -34,7 +34,7 @@
   <scm>
     <connection>scm:git:git://github.com/cjohansen/parrot.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/cjohansen/parrot.git</developerConnection>
-    <tag>v2021.02.18</tag>
+    <tag>v2021.05.10</tag>
     <url>https://github.com/cjohansen/parrot</url>
   </scm>
 </project>
