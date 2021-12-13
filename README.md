@@ -67,6 +67,9 @@ write a longer integration style test, wrapping individual steps in a dedicated
 `with-responses`, and wrap the entire thing in a `with-request-log` and include
 `assert-all-responses-requested` at the end of the test.
 
+`with-responses` eagerly realizes any lazy data before it is returned to avoid
+lazy evaluation escaping the HTTP mocking.
+
 ## Install
 
 Parrot HTTP is a stable library - it will never change it's public API in a
@@ -75,13 +78,13 @@ breaking way, and will never (intentionally) introduce other breaking changes.
 With tools.deps:
 
 ```clj
-cjohansen/parrot-http {:mvn/version "2021.05.10"}
+cjohansen/parrot-http {:mvn/version "2021.12.13"}
 ```
 
 With Leiningen:
 
 ```clj
-[cjohansen/parrot-http "2021.05.10"]
+[cjohansen/parrot-http "2021.12.13"]
 ```
 
 **NB!** Please do not be alarmed if the version/date seems "old" - this just
@@ -182,6 +185,13 @@ single-argument function that returns a response map in place of the inline map:
 ```
 
 ## Changelog
+
+### 2021.12.13
+
+Use [realize](https://github.com/magnars/realize) to fully realize everything
+inside `with-responses`. Prior to this, lazy collections could escape the HTTP
+mocking if they were lazily realized after the call to `with-responses`
+completed.
 
 ### 2021.05.10
 

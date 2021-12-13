@@ -1,6 +1,7 @@
 {:paths ["src"]
  :deps {org.clojure/clojure {:mvn/version "1.10.1"
-                             :scope "provided"}}
+                             :scope "provided"}
+        magnars/realize {:mvn/version "2019-04-24"}}
  :aliases {:dev {:extra-paths ["test"]
                  :extra-deps {org.clojure/test.check {:mvn/version "0.10.0-alpha4"}
                               clj-http/clj-http {:mvn/version "3.10.1"}
