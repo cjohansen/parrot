@@ -1,9 +1,8 @@
 {:paths ["src"]
- :deps {org.clojure/clojure {:mvn/version "1.10.1"
-                             :scope "provided"}
-        realize/realize {:mvn/version "2019-04-24"}}
+ :deps {realize/realize {:mvn/version "2019-04-24"}}
  :aliases {:dev {:extra-paths ["test"]
-                 :extra-deps {org.clojure/test.check {:mvn/version "0.10.0-alpha4"}
+                 :extra-deps {org.clojure/clojure {:mvn/version "1.12.5"}
+                              org.clojure/test.check {:mvn/version "0.10.0-alpha4"}
                               clj-http/clj-http {:mvn/version "3.10.1"}
                               lambdaisland/kaocha {:mvn/version "1.0.700"}
                               kaocha-noyoda/kaocha-noyoda {:mvn/version "2019-06-03"}}}
