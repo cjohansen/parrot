@@ -11,10 +11,10 @@
     (and (string? b) (instance? java.util.regex.Pattern a))
     (re-find a b)
 
-    :default
+    :else
     (= a b)))
 
-(defmulti match? (fn [k spec req] k))
+(defmulti match? (fn [k _spec _req] k))
 
 (defn normalize-keys [m]
   (->> (keys m)
@@ -54,9 +54,9 @@
     [k (cond
          (map? res) res
          (ifn? res) (res req)
-         :default res)]))
+         :else res)]))
 
-(defn log-request [spec req res])
+(defn log-request [_spec _req _res])
 
 (defn handle-request [responses req]
   (let [[spec res] (find-suitable-response responses req)]
@@ -122,7 +122,7 @@
     (test/do-report res)
     (= :pass (:type res))))
 
-(defn assert-all-responses-requested [& [msg]]
+(defn assert-all-responses-requested [& [_msg]]
   (throw (Exception. "Wrap test code in with-request-log to use this assertion")))
 
 (defn add-stubs [_stubs])
