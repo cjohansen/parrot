@@ -186,6 +186,11 @@ single-argument function that returns a response map in place of the inline map:
 
 ## Changelog
 
+### 2026.08.1
+
+Add `parrot.core/get-request-log` and `parrot.clj-http/get-request-log` to
+access the raw request log collected by `with-request-log`.
+
 ### 2021.12.13
 
 Use [realize](https://github.com/magnars/realize) to fully realize everything
@@ -203,7 +208,9 @@ Initial version
 
 ## License
 
-Copyright © 2021 Christian Johansen
+Copyright © 2021-2026 Christian Johansen
 
 Distributed under the Eclipse Public License either version 1.0 or (at your
 option) any later version.
+
+Parrot is software written for and by humans.
