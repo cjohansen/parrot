@@ -1,7 +1,7 @@
 (ns parrot.core
-  (:require [clojure.test :as test]
-            [clojure.set :as set]
-            [clojure.string :as str]))
+  (:require [clojure.set :as set]
+            [clojure.string :as str]
+            [clojure.test :as test]))
 
 (defn comparable? [a b]
   (cond
@@ -125,7 +125,10 @@
 (defn assert-all-responses-requested [& [msg]]
   (throw (Exception. "Wrap test code in with-request-log to use this assertion")))
 
-(defn add-stubs [stubs])
+(defn add-stubs [_stubs])
+
+(defn get-request-log []
+  (throw (Exception. "Wrap calls to this function in with-request-log")))
 
 (defmacro with-request-log [& forms]
   `(let [request-log# (atom [])
@@ -137,5 +140,8 @@
                    #(swap! response-stubs# into %)
 
                    parrot.core/assert-all-responses-requested
-                   (partial verify-all-responses-requested request-log# response-stubs#)]
+                   (partial verify-all-responses-requested request-log# response-stubs#)
+
+                   parrot.core/get-request-log
+                   (fn [] @request-log#)]
        ~@forms)))

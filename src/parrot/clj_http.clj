@@ -14,3 +14,6 @@
 
 (defn assert-all-responses-requested [& [msg]]
   (parrot/assert-all-responses-requested msg))
+
+(defn get-request-log []
+  (parrot/get-request-log))
